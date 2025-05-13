@@ -1,0 +1,27 @@
+# Python / Django
+backend-app/venv/
+backend-app/__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.env
+*.bak
+
+# Django migrations (если не хочешь версионировать миграции)
+**/migrations/*.py[cod]
+**/migrations/__pycache__/
+
+# React (frontend)
+frontend/node_modules/
+frontend/build/
+frontend/.env
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Docker
+*.pid
+*.tar
+*.tmp
