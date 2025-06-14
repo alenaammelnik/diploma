@@ -23,7 +23,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEV_SSH_KEY }}
 
-      - name: Проверка вывод ключей в ssh-agent
+      - name: Проверка вывод ключей в ssh-agent pliz
         run: ssh-add -l || echo "Нет ключей в ssh-agent"
 
       - name: Проверка попытка подключения по SSH?
