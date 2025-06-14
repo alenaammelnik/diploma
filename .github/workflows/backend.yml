@@ -23,6 +23,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEV_SSH_KEY }}
 
+      - name: Проверка: вывод ключей в ssh-agent
+        run: ssh-add -l || echo "Нет ключей в ssh-agent"
+
+      - name: Проверка: попытка подключения по SSH
+        run: |
+          ssh -v -o StrictHostKeyChecking=no root@89.104.66.61 "echo ✅ Успешное подключение"
+
       - name: Deploy on Dev Server
         run: |
           ssh -o StrictHostKeyChecking=no root@89.104.66.61 << 'EOF'
