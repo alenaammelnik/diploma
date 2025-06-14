@@ -1,0 +1,35 @@
+name: Deploy Backend to Dev
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Backend Image"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy from Docker Hub to Dev Server
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.DEV_SSH_KEY }}
+
+      - name: Deploy backend on dev server
+        run: |
+          ssh -o StrictHostKeyChecking=no root@89.104.66.61 << 'EOF'
+            docker pull alenamelnikova/backend-app:latest
+
+            docker stop backend || true
+            docker rm backend || true
+
+            docker run -d \
+              --name backend \
+              -p 8000:8000 \
+              --env-file /root/backend.env \
+              alenamelnikova/backend-app:latest
+          EOF
+
