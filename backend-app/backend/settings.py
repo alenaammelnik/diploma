@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-7xst@2w8w!3-0-!g1c4jv7z__wxvx^q-pt!=kw8y8foyjui6_a
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# to commit
+
 
 
 # Application definition
