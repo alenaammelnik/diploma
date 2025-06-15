@@ -1,7 +1,7 @@
 name: diploma deploy
 
 on: 
-  push
+  push:
   workflow_dispatch:
 
 jobs:
