@@ -28,6 +28,6 @@ jobs:
 
             docker run -d \
               --name frontend \
-              -p 80:80 \
+              -p 8080:80 \
               alenamelnikova/frontend:latest
           EOF
