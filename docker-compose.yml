@@ -20,6 +20,8 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    volumes:
+      - frontend_static:/app/result_build
 
   db:
     image: postgres:15
@@ -31,5 +33,20 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
 
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    env_file: backend-app/.env
+    ports:
+      - '8080:80'
+    restart: unless-stopped
+    volumes:
+      - frontend_static:/usr/share/nginx/html/
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
+  frontend_static:

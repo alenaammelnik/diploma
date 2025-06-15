@@ -7,7 +7,7 @@ backend-app/__pycache__/
 *.env
 *.bak
 
-# Django migrations (если не хочешь версионировать миграции)
+# Django migrations
 **/migrations/*.py[cod]
 **/migrations/__pycache__/
 

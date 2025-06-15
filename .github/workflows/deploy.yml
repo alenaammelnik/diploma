@@ -1,0 +1,39 @@
+name: Deploy Backend to Dev
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Backend Image", "Build and Push Frontend Image"]
+    types:
+      - completed
+
+jobs:
+   deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_DEV }}
+        username: root
+        key: ${{ secrets.DEV_SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE_DEV }}
+        script: |
+          cd diploma
+          sudo docker compose -f docker-compose.dev.yml pull
+          sudo docker compose -f docker-compose.dev.yml down
+          sudo docker compose -f docker-compose.dev.yml up -d
+          sudo docker compose -f docker-compose.dev.yml exec backend python manage.py migrate
+
+
+  send_message:
+    name: Send message to Telegram
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+    - name: send message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: ${{ github.workflow }} успешно выполнен. ${{ github.actor }} выполнил(а) коммит - "${{ github.event.commits[0].message }}"
