@@ -12,6 +12,7 @@ function App() {
     weight: '',
     calories_per_100g: '',
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     fetchEntries();
@@ -28,6 +29,7 @@ function App() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: null }); // очищаем ошибку при вводе
   };
 
   const handleSubmit = async (e) => {
@@ -35,17 +37,27 @@ function App() {
     try {
       await createEntry(form);
       setForm({ name: '', weight: '', calories_per_100g: '' });
+      setErrors({});
       fetchEntries();
     } catch (error) {
-      console.error('Ошибка при добавлении:', error);
+      if (error.response && error.response.status === 400) {
+        setErrors(error.response.data);
+      } else {
+        console.error('Ошибка при добавлении:', error);
+      }
     }
   };
 
   return (
     <div className="container">
       <h2>Подсчёт калорий</h2>
-      <EntryForm form={form} onChange={handleChange} onSubmit={handleSubmit} />
-      <EntryList entries={entries} />
+      <EntryForm
+        form={form}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        errors={errors}
+      />
+      <EntryList entries={entries} setEntries={setEntries} />
       <TotalCalories entries={entries} />
     </div>
   );
