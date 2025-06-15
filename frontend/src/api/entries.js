@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api/entries/';
+const BASE_URL = '/api/entries/';
 
 export const getEntries = (date) => {
   const url = date ? `${BASE_URL}?date=${date}` : BASE_URL;
