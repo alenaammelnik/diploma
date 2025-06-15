@@ -12,3 +12,5 @@ const EntryForm = ({ form, onChange, onSubmit }) => {
 };
 
 export default EntryForm;
+
+// comment
