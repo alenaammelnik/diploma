@@ -58,10 +58,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no root@89.104.66.61 << 'EOF'
             cd diploma
-            sudo docker compose -f docker-compose.dev.yml pull
-            sudo docker compose -f docker-compose.dev.yml down
-            sudo docker compose -f docker-compose.dev.yml up -d
-            sudo docker compose -f docker-compose.dev.yml exec backend python manage.py migrate
+            sudo docker-compose -f docker-compose.dev.yml pull
+            sudo docker-compose -f docker-compose.dev.yml down
+            sudo docker-compose -f docker-compose.dev.yml up -d
+            sudo docker-compose -f docker-compose.dev.yml exec backend python manage.py migrate
           EOF
 
   send_message:
