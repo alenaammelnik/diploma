@@ -50,7 +50,7 @@ function App() {
 
   return (
     <div className="container">
-      <h2>Подсчёт калорий</h2>
+      <h2>Подсчёт калорий test</h2>
       <EntryForm
         form={form}
         onChange={handleChange}
